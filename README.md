@@ -38,6 +38,10 @@ Here are some ideas to get you started:
 
 [![YenHarvey's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=YenHarvey&theme=github)](https://github.com/ashutosh00710/github-readme-activity-graph)
 
+## My Github Contributions
+
+![](https://raw.githubusercontent.com/YenHarvey/YenHarvey/main/assets/github-contribution-grid-snake.svg)
+
 <!-- 花式分割线 -->
 ---
 
