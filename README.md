@@ -1,6 +1,8 @@
 ### Hi there 👋
 
-![Metrics](https://metrics.lecoq.io/Yenharvey?template=classic&lines=1&base=header%2C%20activity%2C%20community%2C%20repositories%2C%20metadata&base.indepth=false&base.hireable=false&base.skip=false&lines=false&lines.sections=base&lines.repositories.limit=4&lines.history.limit=1&lines.delay=0&config.timezone=Asia%2FHong_Kong)
+[![YenHarvey](https://readme-typing-svg.demolab.com/?lines=First+line+of+text;Second+line+of+text)](https://git.io/typing-svg)
+
+<!-- ![Metrics](https://metrics.lecoq.io/Yenharvey?template=classic&lines=1&base=header%2C%20activity%2C%20community%2C%20repositories%2C%20metadata&base.indepth=false&base.hireable=false&base.skip=false&lines=false&lines.sections=base&lines.repositories.limit=4&lines.history.limit=1&lines.delay=0&config.timezone=Asia%2FHong_Kong) -->
 <!--
 **YenHarvey/YenHarvey** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
@@ -36,4 +38,7 @@ Here are some ideas to get you started:
 
 [![YenHarvey's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=YenHarvey&theme=github)](https://github.com/ashutosh00710/github-readme-activity-graph)
 
-![visitors](https://visitor-badge.glitch.me/badge?page_id=page.id&left_color=green&right_color=red)
+<!-- 花式分割线 -->
+---
+
+![](https://visitor-badge.glitch.me/badge?page_id=YenHarvey.readme)
