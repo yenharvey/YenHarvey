@@ -49,8 +49,8 @@ Here are some ideas to get you started:
   <img alt="github-snake" src="github-snake.svg" />
 </picture>
 
-![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/outpput/github-contribution-grid-snake.svg)
-![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/outpput/github-contribution-grid-snake-dark.svg)
+![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/output/github-contribution-grid-snake.svg)
+![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/output/github-contribution-grid-snake-dark.svg)
 
 <!-- 花式分割线 -->
 <!-- ---
