@@ -50,7 +50,7 @@ Here are some ideas to get you started:
 </picture> -->
 
 ![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/output/github-contribution-grid-snake.svg)
-# ![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/output/github-contribution-grid-snake-dark.svg)
+<!-- ![YenHarvey](https://raw.githubusercontent.com/YenHarvey/YenHarvey/output/github-contribution-grid-snake-dark.svg) -->
 
 <!-- 花式分割线 -->
 <!-- ---
