@@ -23,11 +23,11 @@ Here are some ideas to get you started:
 
 ## My GitHub Stats
 
-[![YenHarvey's GitHub stats](https://github-readme-stats.vercel.app/api?username=YenHarvey)](https://github.com/anuraghazra/github-readme-stats)
+[![YenHarvey's GitHub stats](https://github-readme-stats.vercel.app/api?username=YenHarvey&count_private=true)](https://github.com/anuraghazra/github-readme-stats)
 
 ## Programming Languages
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=YenHarvey&layout=compact)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=YenHarvey&layout=compact&count_private=true)](https://github.com/anuraghazra/github-readme-stats)
 
 ## My GitHub Trophies
 
