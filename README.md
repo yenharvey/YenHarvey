@@ -73,9 +73,11 @@ Most of my code lives in private repositories, so the projects below come with t
 
 ## 📈 Activity
 
+<!-- 设置 METRICS_TOKEN secret 并重跑 Metrics workflow 后，取消下面这段注释
 Languages across all repositories I own or contribute to, private and organization repos included:
 
 <img src="./metrics.languages.svg" alt="Languages and lines of code" width="100%">
+-->
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./profile-3d-contrib/profile-night-rainbow.svg" />
