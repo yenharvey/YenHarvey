@@ -1,0 +1,15 @@
+{
+  "acghub": {
+    "repos": [
+      "acghub-team/acghub-server", "acghub-team/acghub-web", "acghub-team/acghub-app",
+      "acghub-team/acghub-admin", "acghub-team/acghub-client", "acghub-team/luna-pass",
+      "acghub-team/acghub-api-guard", "acghub-team/acghub-geo", "acghub-team/acghub-link",
+      "acghub-team/acghub-static", "acghub-team/acghub-status"
+    ]
+  },
+  "api_guard": { "repos": ["acghub-team/acghub-api-guard"] },
+  "luna_pass": { "repos": ["acghub-team/luna-pass"] },
+  "qingjian":  { "repos": ["qingjian-team/qingjian"] },
+  "bling":     { "repos": ["yenharvey/illusion_tailor"] },
+  "zyra":      { "repos": ["yenharvey/zyra"] }
+}

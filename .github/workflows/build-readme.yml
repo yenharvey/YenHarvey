@@ -1,0 +1,36 @@
+# 每周从各仓库拉 commit 数与代码行，重新生成 README.md
+# 私有仓库统计需要 METRICS_TOKEN secret（PAT: repo / read:org）；没有则回退到 data/stats.json 里的缓存
+name: Build README
+on:
+  schedule:
+    - cron: "0 18 * * 0"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - README.template.md
+      - data/projects.json
+      - scripts/build_readme.py
+      - .github/workflows/build-readme.yml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tokei
+        run: |
+          curl -sSL https://github.com/XAMPPRocky/tokei/releases/download/v13.0.0-alpha.8/tokei-x86_64-unknown-linux-gnu.tar.gz | tar xz -C /usr/local/bin tokei
+          tokei --version
+      - name: Build README
+        env:
+          GH_TOKEN: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_readme.py
+      - name: Commit
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add README.md data/stats.json
+          git diff --cached --quiet || git commit -m "chore: rebuild README"
+          git push

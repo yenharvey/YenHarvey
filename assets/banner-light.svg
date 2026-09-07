@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="220" viewBox="0 0 1200 220" role="img" aria-label="Yen Harvey">
+  <rect width="1200" height="220" rx="16" fill="#f6f8fa"/>
+  <rect x="48" y="60" width="6" height="100" rx="3" fill="#f97316"/>
+  <text x="80" y="104" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="52" font-weight="700" fill="#1f2328">Yen Harvey</text>
+  <text x="80" y="146" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#59636e">Rust · AI applications · Full-stack</text>
+  <text x="1152" y="146" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#59636e">acghub.net · qingjian.app · yenharvey.com</text>
+  <g fill="none" stroke="#f97316" stroke-width="2" opacity="0.55">
+    <path d="M1010 40 l30 -18 l30 18 v36 l-30 18 l-30 -18z"/>
+    <path d="M1080 40 l30 -18 l30 18 v36 l-30 18 l-30 -18z"/>
+    <path d="M1045 100 l30 -18 l30 18 v36 l-30 18 l-30 -18z"/>
+  </g>
+</svg>

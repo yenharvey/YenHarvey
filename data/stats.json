@@ -1,0 +1,82 @@
+{
+  "projects": {
+    "acghub": {
+      "commits": 1880,
+      "lines": {
+        "Python": 758,
+        "Rust": 232655,
+        "JavaScript": 912,
+        "TypeScript": 158717,
+        "C++": 491,
+        "Dart": 80762,
+        "Java": 2,
+        "Kotlin": 121,
+        "Swift": 83,
+        "Svelte": 556
+      }
+    },
+    "api_guard": {
+      "commits": 42,
+      "lines": {
+        "JavaScript": 470,
+        "Rust": 7776
+      }
+    },
+    "luna_pass": {
+      "commits": 10,
+      "lines": {
+        "Rust": 12288,
+        "TypeScript": 1267
+      }
+    },
+    "qingjian": {
+      "commits": 1,
+      "lines": {
+        "Python": 342,
+        "Rust": 26229
+      }
+    },
+    "bling": {
+      "commits": 29,
+      "lines": {
+        "JavaScript": 21,
+        "Rust": 12214,
+        "TypeScript": 12453
+      }
+    },
+    "zyra": {
+      "commits": 11,
+      "lines": {
+        "Python": 2518
+      }
+    }
+  },
+  "blog": [
+    {
+      "title": "LLM 是最后手段，不是默认手段",
+      "link": "https://yenharvey.com/articles/llm-as-last-resort",
+      "date": "2026-06-30"
+    },
+    {
+      "title": "从 21 RPS 到 800 RPS：一次 Rust 列表接口优化",
+      "link": "https://yenharvey.com/articles/rust-feed-list-n-plus-one-optimization",
+      "date": "2026-06-15"
+    },
+    {
+      "title": "先别急着怪 Rust：一次 debug 模式压测乌龙",
+      "link": "https://yenharvey.com/articles/rust-debug-release-benchmark-lesson",
+      "date": "2026-06-14"
+    },
+    {
+      "title": "把博客搬到 SvelteKit + Cloudflare",
+      "link": "https://yenharvey.com/articles/building-this-blog",
+      "date": "2026-05-29"
+    },
+    {
+      "title": "为什么 let s2 = s1 有时报错，有时不报错",
+      "link": "https://yenharvey.com/articles/rust-move-vs-copy",
+      "date": "2025-10-19"
+    }
+  ],
+  "updated_at": "2026-09-07"
+}
