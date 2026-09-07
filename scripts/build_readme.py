@@ -181,6 +181,13 @@ def collect_languages(cache: dict) -> dict:
             for lang, n in l.items():
                 lines[lang] = lines.get(lang, 0) + n
     log(f"  counted {counted} repos, {summarize(lines, 4)}")
+    failed = len(repos) - counted
+    if failed:
+        log(f"  {failed} repos could not be cloned (token lacks access?)")
+    cached = cache.get("languages", {})
+    if counted < cached.get("repos", 0):
+        log(f"  fewer repos than cached ({cached['repos']}), keeping cached languages")
+        return cached
     return {"repos": counted, "lines": lines}
 
 

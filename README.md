@@ -115,7 +115,7 @@ Latest from [yenharvey.com](https://yenharvey.com):
 
 ## 📈 Languages
 
-Code lines by language across all 60 repositories I own or contribute to, private and organization repos included. Counted with tokei, config and markup excluded.
+Code lines by language across all 72 repositories I own or contribute to, private and organization repos included. Counted with tokei, config and markup excluded.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/languages-dark.svg">
