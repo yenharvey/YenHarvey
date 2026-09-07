@@ -44,6 +44,37 @@ def log(msg: str) -> None:
     print(msg, file=sys.stderr, flush=True)
 
 
+def warn(msg: str) -> None:
+    """在 GitHub Actions 里显示为黄色 warning 注解。"""
+    if os.environ.get("GITHUB_ACTIONS"):
+        print(f"::warning::{msg}", flush=True)
+    log(f"WARNING: {msg}")
+
+
+def check_token() -> None:
+    """token 缺失、无效或 14 天内过期时发出 warning。"""
+    if not TOKEN:
+        warn("No token: private repositories will not be counted; cached stats will be used.")
+        return
+    data, headers = api("/user")
+    if data is None:
+        warn("Token rejected by GitHub API; cached stats will be used.")
+        return
+    exp = headers.get("github-authentication-token-expiration") or headers.get("GitHub-Authentication-Token-Expiration")
+    if not exp:
+        return
+    try:
+        expires = datetime.strptime(exp.split(" UTC")[0], "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+    except ValueError:
+        log(f"token expires: {exp}")
+        return
+    days = (expires - datetime.now(timezone.utc)).days
+    if days <= 14:
+        warn(f"METRICS_TOKEN expires in {days} days ({exp}). Create a new PAT and run: gh secret set METRICS_TOKEN -R yenharvey/yenharvey")
+    else:
+        log(f"token ok, expires in {days} days")
+
+
 def api(path: str) -> tuple[dict | list | None, dict]:
     req = urllib.request.Request(f"https://api.github.com{path}")
     req.add_header("Accept", "application/vnd.github+json")
@@ -130,7 +161,7 @@ def collect_projects(cache: dict) -> dict:
                 log(f"  {commits} commits, {summarize(lines, 3)}")
             elif key in cache.get("projects", {}):
                 result[key] = cache["projects"][key]
-                log("  fell back to cached stats")
+                warn(f"project '{key}': some repositories unreachable, cached stats used.")
             else:
                 result[key] = {"commits": 0, "lines": {}}
                 log("  no data")
@@ -183,7 +214,7 @@ def collect_languages(cache: dict) -> dict:
     log(f"  counted {counted} repos, {summarize(lines, 4)}")
     failed = len(repos) - counted
     if failed:
-        log(f"  {failed} repos could not be cloned (token lacks access?)")
+        warn(f"{failed} of {len(repos)} repositories could not be cloned; check the token and org PAT policies.")
     cached = cache.get("languages", {})
     if counted < cached.get("repos", 0):
         log(f"  fewer repos than cached ({cached['repos']}), keeping cached languages")
@@ -285,6 +316,7 @@ def main() -> int:
             return 1
         stats = cache
     else:
+        check_token()
         stats = {
             "projects": collect_projects(cache),
             "languages": collect_languages(cache),
