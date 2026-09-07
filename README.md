@@ -140,9 +140,9 @@ Latest from [yenharvey.com](https://yenharvey.com):
 - 2026-05-29 · [把博客搬到 SvelteKit + Cloudflare](https://yenharvey.com/articles/building-this-blog)
 - 2025-10-19 · [为什么 let s2 = s1 有时报错，有时不报错](https://yenharvey.com/articles/rust-move-vs-copy)
 
+<!-- 设置 METRICS_TOKEN secret 并重跑 Metrics workflow 后，取消下面这段注释
 ## 📈 Languages
 
-<!-- 设置 METRICS_TOKEN secret 并重跑 Metrics workflow 后，取消下面这段注释
 Across all repositories I own or contribute to, private and organization repos included:
 
 <img src="./metrics.languages.svg" alt="Languages and lines of code" width="100%">

@@ -136,9 +136,9 @@ Latest from [yenharvey.com](https://yenharvey.com):
 
 {{blog_posts}}
 
+<!-- 设置 METRICS_TOKEN secret 并重跑 Metrics workflow 后，取消下面这段注释
 ## 📈 Languages
 
-<!-- 设置 METRICS_TOKEN secret 并重跑 Metrics workflow 后，取消下面这段注释
 Across all repositories I own or contribute to, private and organization repos included:
 
 <img src="./metrics.languages.svg" alt="Languages and lines of code" width="100%">
