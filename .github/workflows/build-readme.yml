@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - README.template.md
+      - diagrams/**
       - data/projects.json
       - scripts/build_readme.py
       - .github/workflows/build-readme.yml
@@ -23,6 +24,12 @@ jobs:
         uses: taiki-e/install-action@v2
         with:
           tool: tokei
+      - name: Install d2
+        run: curl -fsSL https://d2lang.com/install.sh | sh -s -- --prefix "$HOME/.local"
+      - name: Render diagrams
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          d2 --theme 0 --dark-theme 200 diagrams/acghub.d2 assets/architecture.svg
       - name: Build README
         env:
           GH_TOKEN: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
@@ -31,7 +38,7 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add README.md data/stats.json
+          git add README.md data/stats.json assets/architecture.svg assets/languages-light.svg assets/languages-dark.svg
           git diff --cached --quiet && exit 0
           git commit -m "chore: rebuild README"
           git pull --rebase origin main

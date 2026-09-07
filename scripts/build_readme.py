@@ -77,7 +77,8 @@ def clone_and_count(repo: str, workdir: Path) -> dict[str, int] | None:
         log(f"  clone {repo}: {r.stderr.strip().splitlines()[-1] if r.stderr else 'failed'}")
         return None
     r = subprocess.run(
-        ["tokei", "--output", "json", "--exclude", "vendor", "--exclude", "node_modules", str(dest)],
+        ["tokei", "--output", "json", "--exclude", "vendor", "--exclude", "node_modules",
+         "--exclude", "dist", "--exclude", "build", "--exclude", ".next", "--exclude", "*.min.js", str(dest)],
         capture_output=True, text=True,
     )
     shutil.rmtree(dest, ignore_errors=True)
@@ -136,6 +137,88 @@ def collect_projects(cache: dict) -> dict:
     return result
 
 
+LANG_COLORS = {
+    "Rust": "#dea584", "TypeScript": "#3178c6", "Python": "#3572A5", "Svelte": "#ff3e00",
+    "JavaScript": "#f1e05a", "Dart": "#00B4AB", "Go": "#00ADD8", "C": "#555555",
+    "C++": "#f34b7d", "C#": "#178600", "Vue": "#41b883", "SQL": "#e38c00",
+    "Kotlin": "#A97BFF", "Swift": "#F05138", "Java": "#b07219",
+}
+SKIP_REPOS = {"yenharvey/yenharvey"}
+
+
+def list_all_repos() -> list[str] | None:
+    """当前 token 能看到的全部非 fork、非归档仓库（个人 + 协作 + 组织）。"""
+    repos: list[str] = []
+    page = 1
+    while True:
+        data, _ = api(f"/user/repos?per_page=100&page={page}&affiliation=owner,collaborator,organization_member")
+        if data is None:
+            return None
+        if not data:
+            break
+        for r in data:
+            if r.get("fork") or r.get("archived") or r["full_name"] in SKIP_REPOS:
+                continue
+            repos.append(r["full_name"])
+        page += 1
+    return repos
+
+
+def collect_languages(cache: dict) -> dict:
+    repos = list_all_repos()
+    if not repos:
+        log("languages: cannot list repos, using cache")
+        return cache.get("languages", {"repos": 0, "lines": {}})
+    log(f"[languages] {len(repos)} repos")
+    lines: dict[str, int] = {}
+    counted = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        for repo in repos:
+            l = clone_and_count(repo, Path(tmp))
+            if l is None:
+                continue
+            counted += 1
+            for lang, n in l.items():
+                lines[lang] = lines.get(lang, 0) + n
+    log(f"  counted {counted} repos, {summarize(lines, 4)}")
+    return {"repos": counted, "lines": lines}
+
+
+def render_language_card(langs: dict, dark: bool) -> str:
+    """一张自托管的语言分布卡片：堆叠条 + 图例。"""
+    fg, muted, bg, border = ("#e6edf3", "#8b949e", "#0d1117", "#30363d") if dark else ("#1f2328", "#59636e", "#ffffff", "#d0d7de")
+    items = sorted(langs["lines"].items(), key=lambda kv: -kv[1])
+    total = sum(n for _, n in items) or 1
+    top = items[:8]
+    other = total - sum(n for _, n in top)
+    if other > 0:
+        top.append(("Other", other))
+    width, pad = 800, 24
+    bar_w = width - pad * 2
+    rows = (len(top) + 1) // 2
+    height = 96 + rows * 26 + 20
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" font-family="ui-sans-serif, -apple-system, \'Segoe UI\', Helvetica, Arial, sans-serif">']
+    out.append(f'<rect x="0.5" y="0.5" width="{width-1}" height="{height-1}" rx="12" fill="{bg}" stroke="{border}"/>')
+    out.append(f'<text x="{pad}" y="38" font-size="18" font-weight="600" fill="{fg}">Languages</text>')
+    out.append(f'<text x="{width-pad}" y="38" font-size="13" text-anchor="end" fill="{muted}">{langs["repos"]} repositories · {fmt_k(total)} lines of code · private &amp; org repos included</text>')
+    out.append(f'<clipPath id="bar"><rect x="{pad}" y="54" width="{bar_w}" height="12" rx="6"/></clipPath>')
+    x = float(pad)
+    for lang, n in top:
+        w = bar_w * n / total
+        out.append(f'<rect x="{x:.1f}" y="54" width="{w:.1f}" height="12" fill="{LANG_COLORS.get(lang, "#8b949e")}" clip-path="url(#bar)"/>')
+        x += w
+    for i, (lang, n) in enumerate(top):
+        col, row = i % 2, i // 2
+        lx = pad + col * (bar_w // 2)
+        ly = 96 + row * 26
+        out.append(f'<circle cx="{lx+6}" cy="{ly-4}" r="6" fill="{LANG_COLORS.get(lang, "#8b949e")}"/>')
+        out.append(f'<text x="{lx+20}" y="{ly}" font-size="14" fill="{fg}">{lang}</text>')
+        out.append(f'<text x="{lx+150}" y="{ly}" font-size="14" fill="{muted}">{100*n/total:.1f}%</text>')
+        out.append(f'<text x="{lx+215}" y="{ly}" font-size="14" fill="{muted}">{fmt_k(n)} lines</text>')
+    out.append("</svg>\n")
+    return "\n".join(out)
+
+
 def collect_blog(cache: dict) -> list[dict]:
     try:
         req = urllib.request.Request(BLOG_RSS, headers={"User-Agent": "Mozilla/5.0 (profile-readme-builder)"})
@@ -175,6 +258,7 @@ def render(stats: dict) -> str:
     ]
     values["blog_posts"] = "\n".join(blog_lines) if blog_lines else "_No posts yet._"
     values["updated_at"] = stats["updated_at"]
+    values["languages.repos"] = str(stats["languages"]["repos"])
 
     def sub(m: re.Match) -> str:
         key = m.group(1).strip()
@@ -188,13 +272,23 @@ def render(stats: dict) -> str:
 
 def main() -> int:
     cache = json.loads(CACHE.read_text(encoding="utf-8")) if CACHE.exists() else {}
-    stats = {
-        "projects": collect_projects(cache),
-        "blog": collect_blog(cache),
-        "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-    }
+    if "--from-cache" in sys.argv:
+        if not cache:
+            log("no cache to render from")
+            return 1
+        stats = cache
+    else:
+        stats = {
+            "projects": collect_projects(cache),
+            "languages": collect_languages(cache),
+            "blog": collect_blog(cache),
+            "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        }
     CACHE.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     OUTPUT.write_text(render(stats), encoding="utf-8")
+    for dark in (False, True):
+        card = ROOT / "assets" / f"languages-{'dark' if dark else 'light'}.svg"
+        card.write_text(render_language_card(stats["languages"], dark), encoding="utf-8")
     log(f"wrote {OUTPUT.relative_to(ROOT)}")
     return 0
 

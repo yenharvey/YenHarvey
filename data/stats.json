@@ -51,6 +51,23 @@
       }
     }
   },
+  "languages": {
+    "repos": 72,
+    "lines": {
+      "TypeScript": 386649,
+      "JavaScript": 104713,
+      "Rust": 451718,
+      "C++": 946,
+      "Dart": 87803,
+      "Java": 2,
+      "Kotlin": 206,
+      "Swift": 144,
+      "Svelte": 11997,
+      "Python": 17545,
+      "SQL": 1099,
+      "Go": 1913
+    }
+  },
   "blog": [
     {
       "title": "LLM 是最后手段，不是默认手段",

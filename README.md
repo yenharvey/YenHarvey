@@ -32,7 +32,7 @@
 
 I build production software end to end: Rust backends, TypeScript / Svelte frontends, Flutter mobile clients, and the infrastructure around them. My degree is in AI application, and my day job is building LLM agents for finance and ERP workflows. On the side I run **[ACGHub](https://acghub.net)**, a community platform I have designed, written and operated alone since 2024, and I am writing **[Qingjian](https://qingjian.app)**, a pinyin input method in Rust.
 
-Most of my code lives in private repositories, so the projects below come with their scale instead of a link. The numbers are regenerated weekly from the repositories themselves.
+Most of my code lives in private repositories, so the projects below come with their scale instead of a link. The numbers and the language chart are regenerated weekly from the repositories themselves.
 
 ## 🖥 Showcase
 
@@ -59,34 +59,7 @@ Most of my code lives in private repositories, so the projects below come with t
 
 One person, one platform, twelve repositories. Everything below is written and operated by me.
 
-```mermaid
-flowchart LR
-  subgraph clients [Clients]
-    direction TB
-    web["acghub-web<br/>SvelteKit"]
-    app["acghub-app<br/>Flutter · iOS / Android"]
-    admin["acghub-admin<br/>Angular"]
-    studio["acghub-studio<br/>SvelteKit · WIP"]
-  end
-
-  guard["api-guard<br/>Rust + WASM<br/>ECDH · HMAC · PoW · rate limit"]
-  server["acghub-server<br/>Rust · Axum · PostgreSQL"]
-  luna["luna-pass<br/>SSO · OAuth · RBAC"]
-  geo["acghub-geo<br/>GeoIP · ASN"]
-  link["acghub-link<br/>short links"]
-  static["acghub-static<br/>brand assets · CDN"]
-  status["acghub-status<br/>Cloudflare Workers"]
-
-  web --> guard --> server
-  app --> server
-  admin --> server
-  studio -.-> server
-  server --> luna
-  server --> geo
-  server --> link
-  web --> static
-  status -. monitors .-> server
-```
+<img src="./assets/architecture.svg" alt="ACGHub architecture: clients, edge, core and services" width="100%">
 
 ## 🚀 Selected work
 
@@ -140,10 +113,11 @@ Latest from [yenharvey.com](https://yenharvey.com):
 - 2026-05-29 · [把博客搬到 SvelteKit + Cloudflare](https://yenharvey.com/articles/building-this-blog)
 - 2025-10-19 · [为什么 let s2 = s1 有时报错，有时不报错](https://yenharvey.com/articles/rust-move-vs-copy)
 
-<!-- 设置 METRICS_TOKEN secret 并重跑 Metrics workflow 后，取消下面这段注释
 ## 📈 Languages
 
-Across all repositories I own or contribute to, private and organization repos included:
+Code lines by language across all 72 repositories I own or contribute to, private and organization repos included. Counted with tokei, config and markup excluded.
 
-<img src="./metrics.languages.svg" alt="Languages and lines of code" width="100%">
--->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/languages-dark.svg">
+  <img src="./assets/languages-light.svg" alt="Languages by lines of code" width="100%">
+</picture>

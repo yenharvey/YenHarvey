@@ -1,0 +1,129 @@
+# ACGHub 生态架构图，由 d2 渲染成 assets/architecture.svg
+direction: right
+
+vars: {
+  d2-config: {
+    layout-engine: dagre
+    pad: 24
+  }
+}
+
+classes: {
+  rust: {
+    style: {
+      fill: "#fdf3ea"
+      stroke: "#dea584"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 15
+      font-color: "#1f2328"
+      shadow: false
+    }
+  }
+  ts: {
+    style: {
+      fill: "#eaf2fb"
+      stroke: "#3178c6"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 15
+      font-color: "#1f2328"
+    }
+  }
+  dart: {
+    style: {
+      fill: "#e6f7f6"
+      stroke: "#00b4ab"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 15
+      font-color: "#1f2328"
+    }
+  }
+  wip: {
+    style: {
+      stroke-dash: 4
+      fill: "#f6f8fa"
+      stroke: "#8b949e"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 15
+      font-color: "#59636e"
+    }
+  }
+  group: {
+    style: {
+      fill: "transparent"
+      stroke: "#d0d7de"
+      stroke-dash: 3
+      border-radius: 12
+      font-size: 18
+      font-color: "#59636e"
+      bold: false
+    }
+  }
+  edge: {
+    style: {
+      stroke: "#8b949e"
+      stroke-width: 2
+      font-size: 13
+      font-color: "#59636e"
+    }
+  }
+  planned: {
+    style: {
+      stroke: "#8b949e"
+      stroke-width: 2
+      stroke-dash: 4
+      font-size: 13
+      font-color: "#59636e"
+    }
+  }
+}
+
+clients: Clients {
+  class: group
+  web: "acghub-web\nSvelteKit" { class: ts }
+  app: "acghub-app\nFlutter · iOS / Android" { class: dart }
+  admin: "acghub-admin\nAngular" { class: ts }
+  studio: "acghub-studio\nSvelteKit · WIP" { class: wip }
+}
+
+edge: Edge {
+  class: group
+  guard: "api-guard\nRust + WASM\nECDH · HMAC · PoW · rate limit" { class: rust }
+  static: "acghub-static\nbrand assets · CDN" { class: ts }
+  status: "acghub-status\nCloudflare Workers" { class: ts }
+}
+
+core: Core {
+  class: group
+  server: "acghub-server\nRust · Axum" { class: rust }
+  luna: "luna-pass\nSSO · OAuth · RBAC" { class: rust }
+  db: PostgreSQL {
+    shape: cylinder
+    style.fill: "#eaf2fb"
+    style.stroke: "#4169e1"
+    style.stroke-width: 2
+    style.font-size: 15
+    style.font-color: "#1f2328"
+  }
+}
+
+services: Services {
+  class: group
+  geo: "acghub-geo\nGeoIP · ASN" { class: rust }
+  shortlink: "acghub-link\nshort links" { class: rust }
+}
+
+clients.web -> edge.guard: signed requests { class: edge }
+edge.guard -> core.server { class: edge }
+clients.app -> core.server { class: edge }
+clients.admin -> core.server { class: edge }
+clients.studio -> core.server: planned { class: planned }
+clients.web -> edge.static { class: edge }
+core.server -> core.db { class: edge }
+core.server -> core.luna: auth { class: edge }
+core.server -> services.geo { class: edge }
+core.server -> services.shortlink { class: edge }
+edge.status -> core.server: monitors { class: planned }
