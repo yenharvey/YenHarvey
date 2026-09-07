@@ -1,6 +1,6 @@
 # lowlighter/metrics：按语言统计所有仓库（含私有与组织仓库）的代码量
 # 需要 METRICS_TOKEN secret（PAT，scope: repo, read:org, read:user），
-# 没有时回退到 GITHUB_TOKEN，只能统计公开仓库。
+# 没有设置时整个 job 跳过，避免每天推一张空图。
 name: Metrics
 on:
   schedule: [{cron: "0 18 * * *"}]
@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      HAS_TOKEN: ${{ secrets.METRICS_TOKEN }}
     steps:
       - uses: lowlighter/metrics@latest
+        if: env.HAS_TOKEN != ''
         with:
-          token: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.METRICS_TOKEN }}
           user: yenharvey
           template: classic
           filename: metrics.languages.svg

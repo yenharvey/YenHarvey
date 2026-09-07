@@ -32,5 +32,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add README.md data/stats.json
-          git diff --cached --quiet || git commit -m "chore: rebuild README"
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: rebuild README"
+          git pull --rebase origin main
           git push
