@@ -52,18 +52,17 @@
     }
   },
   "languages": {
-    "repos": 72,
+    "repos": 60,
     "lines": {
-      "TypeScript": 386649,
-      "JavaScript": 104713,
-      "Rust": 451718,
-      "C++": 946,
-      "Dart": 87803,
-      "Java": 2,
-      "Kotlin": 206,
-      "Swift": 144,
-      "Svelte": 11997,
-      "Python": 17545,
+      "Rust": 219063,
+      "JavaScript": 103801,
+      "Svelte": 11441,
+      "TypeScript": 227932,
+      "Python": 16787,
+      "C++": 455,
+      "Dart": 7041,
+      "Kotlin": 85,
+      "Swift": 61,
       "SQL": 1099,
       "Go": 1913
     }
